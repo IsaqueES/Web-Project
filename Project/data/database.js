@@ -1,0 +1,91 @@
+//Database
+import { Sequelize, DataTypes } from "sequelize";
+
+const sequelize = new Sequelize(
+  "postgresql://postgres.udadouluseqghixmiotg:PWIFICME23%23@aws-0-sa-east-1.pooler.supabase.com:5432/postgres",
+  {
+    dialect: "postgres",
+    logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+  }
+);
+
+// Cliente
+const Cliente = sequelize.define(
+  "Cliente",
+  {
+    idCliente: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    nome: DataTypes.STRING,
+    email: DataTypes.STRING,
+    senha: DataTypes.STRING,
+  },
+  {
+    tableName: "Clientes",
+  }
+);
+
+// Funcionario
+const Funcionario = sequelize.define(
+  "Funcionario",
+  {
+    idFuncionario: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    nome: DataTypes.STRING,
+    email: DataTypes.STRING,
+    senha: DataTypes.STRING,
+  },
+  {
+    tableName: "Funcionarios",
+  }
+);
+
+// Item
+const Item = sequelize.define(
+  "Item",
+  {
+    idItem: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    nome: DataTypes.STRING,
+    quantidade: DataTypes.INTEGER,
+    preco: DataTypes.INTEGER,
+  },
+  {
+    tableName: "Itens",
+  }
+);
+
+// Pedido
+const Pedido = sequelize.define(
+  "Pedido",
+  {
+    idPedido: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    idItem: { type: DataTypes.INTEGER, allowNull: false },
+    idCliente: { type: DataTypes.INTEGER, allowNull: false },
+  },
+  {
+    tableName: "Pedidos",
+  }
+);
+
+// Relacionamentos
+Cliente.hasMany(Pedido, { foreignKey: "idCliente" });
+Pedido.belongsTo(Cliente, { foreignKey: "idCliente" });
+Item.hasMany(Pedido, { foreignKey: "idItem" });
+Pedido.belongsTo(Item, { foreignKey: "idItem" });
+
+export { sequelize, Cliente, Funcionario, Item, Pedido };

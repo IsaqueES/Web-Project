@@ -8,6 +8,70 @@
     <script src="../script/script.js" defer></script>
   </head>
   <body>
-    <header><h1>Title</h1></header>
+    <div class="addbox" id="additem">
+      <h1>Add Item</h1>
+      <form action="http://localhost:3000/item" method="POST">
+        <input
+          type="text"
+          id="nomeitem"
+          name="nome"
+          placeholder="Item"
+          required
+        />
+        <input
+          type="text"
+          id="amountitem"
+          name="amount"
+          placeholder="Amount"
+          required
+        />
+        <input
+          type="text"
+          id="priceitem"
+          name="price"
+          placeholder="Price"
+          required
+        />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <div class="addbox" id="addcliente">
+      <h1>Add Client</h1>
+      <input
+        type="text"
+        name="client"
+        id="clientinput"
+        placeholder="Client"
+        class="addinput"
+      />
+      <input
+        type="text"
+        name="client"
+        id="clientpassinput"
+        placeholder="Password"
+        class="addinput"
+      />
+      <button id="btnclient" class="btnadd">Submit</button>
+    </div>
+
+    <div class="addbox" id="addcliente">
+      <h1>Add Employe</h1>
+      <input
+        type="text"
+        name="employe"
+        id="employeinput"
+        placeholder="Employe"
+        class="addinput"
+      />
+      <input
+        type="text"
+        name="employe"
+        id="employepassinput"
+        placeholder="Password"
+        class="addinput"
+      />
+      <button id="btnemploye" class="btnadd">Submit</button>
+    </div>
   </body>
 </html>
