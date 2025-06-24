@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Cliente</title>
+  </head>
+  <body>
+    <div class="addbox" id="addcliente">
+      <h1>Add Client</h1>
+      <form action="http://localhost:3000/cliente" method="POST">
+        <input
+          type="text"
+          id="nomecliente"
+          name="nomecliente"
+          placeholder="Nome"
+          required
+        />
+
+        <input
+          type="text"
+          id="emailcliente"
+          name="emailcliente"
+          placeholder="Email"
+          required
+        />
+        <input
+          type="text"
+          id="senhacliente"
+          name="senhacliente"
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>
