@@ -19,7 +19,27 @@ app.get("/", async (req, res) => {
   );
 });
 
-/
+//Login Cliente
+app.get("/logincliente", async (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "..", "..", "Project", "src", "login", "cliente.html")
+  );
+});
+
+//Login Funcionário
+app.get("/loginfuncionario", async (req, res) => {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "..",
+      "..",
+      "Project",
+      "src",
+      "login",
+      "funcionario.html"
+    )
+  );
+});
 
 //Adicionando ITEM
 app.post("/item", async (req, res) => {
