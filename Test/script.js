@@ -7,13 +7,22 @@
   if (loginvar === null||loginvar === "NotLoged") {
     divname.innerText = "If you reading this you're not logged";
   } else {
-    divname.innerText = `Olá ${loginvar}!`;
+    divname.innerHTML = `
+    <h1>Hello ${loginvar}!</h1>
+    <p>Your Color is : ${colorvar}</p>
+    `;
   }
 
 //LOGIN FUNC
   const Login = async (id,color) => {
     var input = document.getElementById(id).value;
     var inputcolor = document.getElementById(color).value;
+    function corValida(cor) {
+      const s = new Option().style;
+      s.color = cor;
+      return s.color !== '';
+    }
+    
     if(input!='' && color!=''){
       localStorage.setItem("loginvar", input);
       localStorage.setItem("color",inputcolor);
@@ -47,6 +56,7 @@
     `
   }else{
     divbotao.innerHTML = `
+    <p>There should probably be something here</p>
     <button onclick="LogOut()">Log Out</button>
     `
   }
