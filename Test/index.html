@@ -8,8 +8,15 @@
   </head>
   <body>
     <h1>LocalStorage Test</h1>
-    <input type="text" placeholder="Var" id="inputvar" />
-    <button onclick="Submit('inputvar')">Submit</button>
-    <div id="divname">Se voce esta lendo isso é pq nao tem cadastro ainda</div>
+
+    <div id="loginout">
+      <!-- SEM LOGIN -->
+      <input type="text" placeholder="Var" id="inputvar" />
+      <input type="text" placeholder="BackGround Color" id="inputcolor" />
+      <button onclick="Login('inputvar','inputcolor')">Submit</button>
+      <!-- COM LOGIN -->
+      <button onclick="LogOut()">Log Out</button>
+    </div>
+    <div id="divname">If you reading this you're not logged</div>
   </body>
 </html>
