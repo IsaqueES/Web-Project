@@ -22,7 +22,14 @@ app.get("/", async (req, res) => {
 //Login Cliente
 app.get("/logincliente", async (req, res) => {
   res.sendFile(
-    path.join(__dirname, "..", "..", "Project", "src", "login", "cliente.html")
+    path.join(
+      __dirname, 
+      "..", "..",
+      "Project",
+      "src",
+      "login",
+      "newcliente.html"
+    )
   );
 });
 
@@ -36,7 +43,7 @@ app.get("/loginfuncionario", async (req, res) => {
       "Project",
       "src",
       "login",
-      "funcionario.html"
+      "newfuncionario.html"
     )
   );
 });
