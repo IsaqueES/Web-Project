@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Cliente</title>
     <link rel="stylesheet" href="../../style/style.css" />
-    <script src=".."></script>
+    <script src="../../script/newclient.js" defer></script>
   </head>
   <body>
     <div class="navbar">
@@ -18,9 +18,14 @@
         <a href="/loginfuncionario">Funcionario</a>
       </div>
     </div>
+
     <div class="addbox" id="addcliente">
       <h1>Add Client</h1>
-      <form action="http://localhost:3000/cliente" method="POST">
+      <form
+        action="http://localhost:3000/cliente"
+        method="POST"
+        id="formCliente"
+      >
         <input
           type="text"
           id="nomecliente"
@@ -43,7 +48,14 @@
           placeholder="Password"
           required
         />
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          id="btnSubmit"
+          style="display: none"
+          onclick="LoginClient()"
+        >
+          Submit
+        </button>
       </form>
     </div>
   </body>

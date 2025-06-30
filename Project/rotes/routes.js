@@ -23,8 +23,9 @@ app.get("/", async (req, res) => {
 app.get("/logincliente", async (req, res) => {
   res.sendFile(
     path.join(
-      __dirname, 
-      "..", "..",
+      __dirname,
+      "..",
+      "..",
       "Project",
       "src",
       "login",
@@ -94,6 +95,17 @@ app.post("/funcionario", async (req, res) => {
     console.log(error);
   }
   res.redirect("/");
+});
+
+app.post("/teste/:id", async (req, res) => {
+  const idparam = req.params.id;
+  try {
+    console.log("Você enviou: " + idparam);
+    res.status(200).send(`Recebi o id: ${idparam}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro no servidor");
+  }
 });
 
 app.listen(3000, () =>
