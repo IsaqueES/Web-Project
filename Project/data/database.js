@@ -88,4 +88,22 @@ Pedido.belongsTo(Cliente, { foreignKey: "idCliente" });
 Item.hasMany(Pedido, { foreignKey: "idItem" });
 Pedido.belongsTo(Item, { foreignKey: "idItem" });
 
-export { sequelize, Cliente, Funcionario, Item, Pedido };
+let ItemJson;
+let ItemHTML;
+async function PegarJSON() {
+  ItemJson = (await Item.findAll()).map((item) => item.toJSON());
+  ItemHTML = ItemJson.map(
+    (item) => `
+    <div>
+      <p>Nome: ${item.nome}</p>
+      <p>Nota: ${item.nota}</p>
+    </div>
+  `
+  ).join("\n"); // join para juntar tudo numa string só
+
+  console.log(ItemHTML);
+}
+
+PegarJSON();
+
+export { sequelize, Cliente, Funcionario, Item, Pedido, ItemHTML };

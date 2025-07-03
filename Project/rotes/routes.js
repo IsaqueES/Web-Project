@@ -97,6 +97,21 @@ app.post("/funcionario", async (req, res) => {
   res.redirect("/");
 });
 
+//ENVIANDO STRING ITENS
+app.get("/api/itemhtml", async (req, res) => {
+  const ItemJson = (await Item.findAll()).map((item) => item.toJSON());
+  const ItemHTML = ItemJson.map(
+    (item) => `
+    <div style="padding: 15px;margin:5px; background-color: aquamarine; border: 2px solid black;">
+      <p>Nome: ${item.nome}</p>
+      <p>Quantidade: ${item.quantidade}</p>
+    </div>
+  `
+  ).join("");
+
+  res.send(ItemHTML); // envia só o HTML
+});
+
 app.post("/teste/:id", async (req, res) => {
   const idparam = req.params.id;
   try {
