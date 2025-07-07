@@ -119,17 +119,20 @@ app.get("/api/clientehtml", async (req, res) => {
   const ItemJson = (await Item.findAll()).map((item) => item.toJSON());
   const ItemHTML = ItemJson.map(
     (item) => `
-    <div style="padding: 15px;margin:5px; background-color: aquamarine; border: 2px solid black;">
-      <img src="${item.imagem}">
-      <p>Nome: ${item.nome}</p>
-      <p>Preço: ${item.preco}</p>
-      <form action="http://localhost:3000/pedido" method="POST">
-        <input type="hidden" name="nomepedido" value="${item.nome}">
-        <input type="hidden" name="imagempedido" value="${item.imagem}">
-        <input type="hidden" name="precopedido" value="${item.preco}">
-        <button type="submit">Comprar</button>
-      </form>
-      </div>
+    <div class="card m-2" style="width: 18rem;">
+  <img src="${item.imagem}" class="card-img-top" alt="${item.nome}">
+  <div class="card-body">
+    <h5 class="card-title">${item.nome}</h5>
+    <p class="card-text">Preço: R$ ${item.preco}</p>
+    <form action="http://localhost:3000/pedido" method="POST">
+      <input type="hidden" name="nomepedido" value="${item.nome}">
+      <input type="hidden" name="imagempedido" value="${item.imagem}">
+      <input type="hidden" name="precopedido" value="${item.preco}">
+      <button type="submit" class="btn btn-success w-100">Comprar</button>
+    </form>
+  </div>
+</div>
+
   `
   ).join("");
 
@@ -141,19 +144,35 @@ app.get("/api/funcionariohtml", async (req, res) => {
   const PedidoJSON = (await Pedido.findAll()).map((pedido) => pedido.toJSON());
   const PedidoHTML = PedidoJSON.map(
     (pedido) => `
-    <div style="padding: 15px;margin:5px; background-color: aquamarine; border: 2px solid black;">
-      <img src="${pedido.imagem}">
-      <p>Nome: ${pedido.nome}</p>
-      <p>Preço: ${pedido.preco}</p>
-      <form action="http://localhost:3000/pedidoenviado" method="POST">
-        <input type="hidden" name="nomepedido" value="${pedido.nome}">
-        <button type="submit">Enviar</button>
-      </form>
+    <div class="card m-2" style="width: 18rem;">
+      <img src="${pedido.imagem}" class="card-img-top" alt="${pedido.nome}">
+      <div class="card-body">
+        <h5 class="card-title">${pedido.nome}</h5>
+        <p class="card-text">Preço: R$ ${pedido.preco}</p>
+        <form action="http://localhost:3000/pedidoenviado" method="POST">
+          <input type="hidden" name="nomepedido" value="${pedido.nome}">
+          <button type="submit" class="btn btn-primary w-100">Enviar</button>
+        </form>
+      </div>
     </div>
+
   `
   ).join("");
   res.send(PedidoHTML); // envia só o HTML
 });
+
+
+app.post("/pedidoenviado", async (req, res) => {
+  const nomepedido = req.body.nomepedido;
+  try {
+    await Pedido.destroy({ where: { nome: nomepedido } });
+    console.log("Pedido Enviado")
+    res.redirect("/");
+  } catch (error) {
+    res.status(500).send("Erro ao deletar pedido");
+  }
+});
+
 
 
 app.post("/teste/:id", async (req, res) => {
