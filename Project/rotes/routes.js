@@ -71,7 +71,6 @@ app.post("/cliente", async (req, res) => {
       email: req.body.emailcliente,
       senha: req.body.senhacliente,
     });
-    
   } catch (error) {
     console.log(error);
   }
@@ -92,8 +91,8 @@ app.post("/funcionario", async (req, res) => {
   res.redirect("/");
 });
 
-//ADICIONANDO PEDIDO 
-app.post("/pedido",async (req,res)=>{
+//ADICIONANDO PEDIDO
+app.post("/pedido", async (req, res) => {
   try {
     const novoPedido = await Pedido.create({
       nome: req.body.nomepedido,
@@ -104,7 +103,7 @@ app.post("/pedido",async (req,res)=>{
     console.log(error);
   }
   res.redirect("/");
-})
+});
 //ENVIANDO HTML CLIENTES
 app.get("/api/clientehtml", async (req, res) => {
   const ItemJson = (await Item.findAll()).map((item) => item.toJSON());
@@ -154,8 +153,50 @@ app.get("/api/funcionariohtml", async (req, res) => {
   // Envolve todos os cards dentro de uma única row
   res.send(`<div class="row">${PedidoHTML}</div>`);
 });
+//DELETE CLIENTE
+app.post("/deletecliente", async (req, res) => {
+  const { idCliente } = req.body;
+  try {
+    await Cliente.destroy({ where: { idCliente } });
+    res.redirect("/loginfuncionario");
+  } catch (error) {
+    res.status(500).send("Erro ao deletar cliente: " + error.message);
+  }
+});
 
+//CLIENTESLIST
+app.get("/api/clientelist", async (req, res) => {
+  try {
+    const clientes = await Cliente.findAll();
+    const clientesHTML = clientes
+      .map(
+        (cliente) => `
+      <div class="mb-3 text-center">
+        <div class="border rounded p-2 bg-white">
+          <strong>${cliente.nome}</strong>
+        </div>
+        <form action="/deletecliente" method="POST" class="mt-1">
+          <input type="hidden" name="idCliente" value="${cliente.idCliente}">
+          <button type="submit" class="btn w-100" style="background-color: #f8d7da; color: #721c24; border: none;">
+            Deletar
+          </button>
+        </form>
+      </div>
+    `
+      )
+      .join("");
 
+    res.send(`
+      <div class="p-3">
+        <h5 class="text-center mb-4"><strong>Clientes</strong></h5>
+        ${clientesHTML}
+      </div>
+    `);
+  } catch (error) {
+    console.error("Erro ao buscar clientes:", error);
+    res.status(500).send("<p>Erro ao carregar clientes.</p>");
+  }
+});
 
 app.post("/pedidoenviado", async (req, res) => {
   const nomepedido = req.body.nomepedido;
@@ -166,8 +207,6 @@ app.post("/pedidoenviado", async (req, res) => {
     res.status(500).send("Erro ao deletar pedido");
   }
 });
-
-
 
 app.post("/teste/:id", async (req, res) => {
   const idparam = req.params.id;

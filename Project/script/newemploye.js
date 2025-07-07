@@ -1,53 +1,76 @@
 var LoginEmploye = () => {
+  const inputnome = document.getElementById("nomefuncionario").value;
   localStorage.setItem("usertype", "Employe");
+  localStorage.setItem("nome", inputnome);
   window.location.reload();
 };
 var usertype = localStorage.getItem("usertype");
 var motherbox = document.getElementById("motherbox");
-if (usertype === "Employe") {
-  motherbox.innerHTML = `
-  <div class="container mt-5">
-  <div class="card shadow-sm p-4">
-    <h2 class="mb-4 text-primary">Adicionar Item</h2>
-    <form action="http://localhost:3000/item" method="POST">
-      <div class="mb-3">
-        <input
-          type="text"
-          class="form-control"
-          id="nomeitem"
-          name="nomeitem"
-          placeholder="Nome do item"
-          required
-        />
-      </div>
-      <div class="mb-3">
-        <input
-          type="text"
-          class="form-control"
-          id="imgitem"
-          name="imgitem"
-          placeholder="URL da imagem"
-          required
-        />
-      </div>
-      <div class="mb-3">
-        <input
-          type="number"
-          step="0.01"
-          class="form-control"
-          id="priceitem"
-          name="priceitem"
-          placeholder="Preço"
-          required
-        />
-      </div>
-      <button type="submit" class="btn btn-success w-100">Cadastrar</button>
-    </form>
-    </div>
-  </div>
 
-  `;
+var usernome = localStorage.getItem("nome");
+var nomediv = document.getElementById("usernome");
+
+nomediv.innerHTML = `Usuário : ${usernome}`;
+if (usertype === "Employe") {
+  fetch("/api/clientelist") // busca clientes e funcionários no mesmo HTML
+    .then((res) => res.text())
+    .then((clientesHTML) => {
+      motherbox.innerHTML = `
+        <div class="container-fluid mt-4">
+          <div class="row">
+            
+            <!-- Coluna principal: formulário -->
+            <div class="col-md-9">
+              <div class="card shadow-sm p-4">
+                <h2 class="mb-4 text-primary">Adicionar Item</h2>
+                <form action="http://localhost:3000/item" method="POST">
+                  <div class="mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="nomeitem"
+                      name="nomeitem"
+                      placeholder="Nome do item"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="imgitem"
+                      name="imgitem"
+                      placeholder="URL da imagem"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <input
+                      type="number"
+                      step="0.01"
+                      class="form-control"
+                      id="priceitem"
+                      name="priceitem"
+                      placeholder="Preço"
+                      required
+                    />
+                  </div>
+                  <button type="submit" class="btn btn-success w-100">Cadastrar</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Coluna lateral: clientes e funcionários -->
+            <div class="col-md-3">
+              ${clientesHTML}
+            </div>
+
+          </div>
+        </div>
+      `;
+    });
 }
+
 if (usertype != "Employe") {
   motherbox.innerHTML = `
   <div class="container mt-5">
@@ -103,11 +126,13 @@ if (usertype != "Employe") {
   const submitBtn = document.getElementById("submitBtn");
 
   function checkInputs() {
-    const allFilled = Array.from(inputs).every(input => input.value.trim() !== "");
+    const allFilled = Array.from(inputs).every(
+      (input) => input.value.trim() !== ""
+    );
     submitBtn.style.display = allFilled ? "block" : "none";
   }
 
-  inputs.forEach(input => {
+  inputs.forEach((input) => {
     input.addEventListener("input", checkInputs);
   });
 
