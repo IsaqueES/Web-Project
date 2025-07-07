@@ -57,8 +57,6 @@ app.post("/item", async (req, res) => {
       imagem: req.body.imgitem,
       preco: req.body.priceitem,
     });
-    console.log("Criou Item");
-    console.log(req.body);
   } catch (error) {
     console.log(error);
   }
@@ -73,8 +71,7 @@ app.post("/cliente", async (req, res) => {
       email: req.body.emailcliente,
       senha: req.body.senhacliente,
     });
-    console.log("Criou Cliente");
-    console.log(req.body);
+    
   } catch (error) {
     console.log(error);
   }
@@ -89,9 +86,6 @@ app.post("/funcionario", async (req, res) => {
       email: req.body.emailfuncionario,
       senha: req.body.senhafuncionario,
     });
-    console.log("Criou Funcionario");
-    console.log(req.body);
-    console.log(novoFuncionario)
   } catch (error) {
     console.log(error);
   }
@@ -106,9 +100,6 @@ app.post("/pedido",async (req,res)=>{
       imagem: req.body.imagempedido,
       preco: req.body.precopedido,
     });
-    console.log("Criou Pedido");
-    console.log(req.body);
-    console.log(novoPedido)
   } catch (error) {
     console.log(error);
   }
@@ -170,7 +161,6 @@ app.post("/pedidoenviado", async (req, res) => {
   const nomepedido = req.body.nomepedido;
   try {
     await Pedido.destroy({ where: { nome: nomepedido } });
-    console.log("Pedido Enviado")
     res.redirect("/");
   } catch (error) {
     res.status(500).send("Erro ao deletar pedido");
@@ -182,10 +172,8 @@ app.post("/pedidoenviado", async (req, res) => {
 app.post("/teste/:id", async (req, res) => {
   const idparam = req.params.id;
   try {
-    console.log("Você enviou: " + idparam);
     res.status(200).send(`Recebi o id: ${idparam}`);
   } catch (error) {
-    console.error(error);
     res.status(500).send("Erro no servidor");
   }
 });

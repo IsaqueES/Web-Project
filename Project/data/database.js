@@ -91,8 +91,6 @@ async function PegarJSON() {
     </div>
   `
   ).join("\n"); // join para juntar tudo numa string só
-
-  console.log(ItemHTML);
 }
 
 PegarJSON();
