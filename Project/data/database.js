@@ -68,24 +68,16 @@ const Item = sequelize.define(
 const Pedido = sequelize.define(
   "Pedido",
   {
-    idPedido: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    idItem: { type: DataTypes.INTEGER, allowNull: false },
-    idCliente: { type: DataTypes.INTEGER, allowNull: false },
+    idPedido: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    nome: DataTypes.STRING,
+    imagem: DataTypes.STRING,
+    preco: DataTypes.INTEGER,
   },
   {
     tableName: "Pedidos",
   }
 );
 
-// Relacionamentos
-Cliente.hasMany(Pedido, { foreignKey: "idCliente" });
-Pedido.belongsTo(Cliente, { foreignKey: "idCliente" });
-Item.hasMany(Pedido, { foreignKey: "idItem" });
-Pedido.belongsTo(Item, { foreignKey: "idItem" });
 
 let ItemJson;
 let ItemHTML;

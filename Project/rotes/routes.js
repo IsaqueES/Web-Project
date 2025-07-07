@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import { Item, Cliente, Funcionario } from "../data/database.js";
+import { Item, Cliente, Funcionario, Pedido } from "../data/database.js";
 
 const app = express();
 
@@ -98,8 +98,24 @@ app.post("/funcionario", async (req, res) => {
   res.redirect("/");
 });
 
-//ENVIANDO STRING ITENS
-app.get("/api/itemhtml", async (req, res) => {
+//ADICIONANDO PEDIDO 
+app.post("/pedido",async (req,res)=>{
+  try {
+    const novoPedido = await Pedido.create({
+      nome: req.body.nomepedido,
+      imagem: req.body.imagempedido,
+      preco: req.body.precopedido,
+    });
+    console.log("Criou Pedido");
+    console.log(req.body);
+    console.log(novoPedido)
+  } catch (error) {
+    console.log(error);
+  }
+  res.redirect("/");
+})
+//ENVIANDO HTML CLIENTES
+app.get("/api/clientehtml", async (req, res) => {
   const ItemJson = (await Item.findAll()).map((item) => item.toJSON());
   const ItemHTML = ItemJson.map(
     (item) => `
@@ -107,12 +123,38 @@ app.get("/api/itemhtml", async (req, res) => {
       <img src="${item.imagem}">
       <p>Nome: ${item.nome}</p>
       <p>Preço: ${item.preco}</p>
-    </div>
+      <form action="http://localhost:3000/pedido" method="POST">
+        <input type="hidden" name="nomepedido" value="${item.nome}">
+        <input type="hidden" name="imagempedido" value="${item.imagem}">
+        <input type="hidden" name="precopedido" value="${item.preco}">
+        <button type="submit">Comprar</button>
+      </form>
+      </div>
   `
   ).join("");
 
   res.send(ItemHTML); // envia só o HTML
 });
+
+//ENVIANDO HTML FUNCIONARIOS
+app.get("/api/funcionariohtml", async (req, res) => {
+  const PedidoJSON = (await Pedido.findAll()).map((pedido) => pedido.toJSON());
+  const PedidoHTML = PedidoJSON.map(
+    (pedido) => `
+    <div style="padding: 15px;margin:5px; background-color: aquamarine; border: 2px solid black;">
+      <img src="${pedido.imagem}">
+      <p>Nome: ${pedido.nome}</p>
+      <p>Preço: ${pedido.preco}</p>
+      <form action="http://localhost:3000/pedidoenviado" method="POST">
+        <input type="hidden" name="nomepedido" value="${pedido.nome}">
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+  `
+  ).join("");
+  res.send(PedidoHTML); // envia só o HTML
+});
+
 
 app.post("/teste/:id", async (req, res) => {
   const idparam = req.params.id;

@@ -5,16 +5,18 @@ var motherdiv = document.getElementById("motherbox");
 
 
  if (usertype === "Client") {
-  fetch("/api/itemhtml")
+  fetch("/api/clientehtml")
   .then((response) => response.text())
   .then((html) => {
     motherdiv.innerHTML = html;
   });
  }
 if (usertype === "Employe") {
-  motherdiv.innerHTML = `
-          <h1>Your {usertype} is Employe</h1>
-          `;
+  fetch("/api/funcionariohtml")
+  .then((responsef) => responsef.text())
+  .then((htmlf) => {
+    motherdiv.innerHTML = htmlf;
+  });
 }
 
 const Comprou = (item) => {
