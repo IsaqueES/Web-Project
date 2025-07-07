@@ -54,7 +54,7 @@ app.post("/item", async (req, res) => {
   try {
     const novoItem = await Item.create({
       nome: req.body.nomeitem,
-      quantidade: req.body.amountitem,
+      imagem: req.body.imgitem,
       preco: req.body.priceitem,
     });
     console.log("Criou Item");
@@ -91,6 +91,7 @@ app.post("/funcionario", async (req, res) => {
     });
     console.log("Criou Funcionario");
     console.log(req.body);
+    console.log(novoFuncionario)
   } catch (error) {
     console.log(error);
   }
@@ -103,8 +104,9 @@ app.get("/api/itemhtml", async (req, res) => {
   const ItemHTML = ItemJson.map(
     (item) => `
     <div style="padding: 15px;margin:5px; background-color: aquamarine; border: 2px solid black;">
+      <img src="${item.imagem}">
       <p>Nome: ${item.nome}</p>
-      <p>Quantidade: ${item.quantidade}</p>
+      <p>Preço: ${item.preco}</p>
     </div>
   `
   ).join("");

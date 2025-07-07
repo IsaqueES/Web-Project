@@ -18,9 +18,9 @@ if (usertype === "Employe") {
         />
         <input
           type="text"
-          id="amountitem"
-          name="amountitem"
-          placeholder="Amount"
+          id="imgitem"
+          name="imgitem"
+          placeholder="Image URL"
           required
         />
         <input

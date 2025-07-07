@@ -1,4 +1,3 @@
-//Database
 import { Sequelize, DataTypes } from "sequelize";
 
 const sequelize = new Sequelize(
@@ -57,7 +56,7 @@ const Item = sequelize.define(
   {
     idItem: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     nome: DataTypes.STRING,
-    quantidade: DataTypes.INTEGER,
+    imagem: DataTypes.STRING,
     preco: DataTypes.INTEGER,
   },
   {
