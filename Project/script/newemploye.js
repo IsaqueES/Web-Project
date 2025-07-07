@@ -85,6 +85,7 @@ if (usertype != "Employe") {
           />
         </div>
         <button
+          onClick="LoginEmploye()"
           type="submit"
           class="btn btn-primary w-100"
           id="submitBtn"

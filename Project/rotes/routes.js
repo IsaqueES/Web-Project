@@ -142,24 +142,28 @@ app.get("/api/clientehtml", async (req, res) => {
 //ENVIANDO HTML FUNCIONARIOS
 app.get("/api/funcionariohtml", async (req, res) => {
   const PedidoJSON = (await Pedido.findAll()).map((pedido) => pedido.toJSON());
+
   const PedidoHTML = PedidoJSON.map(
     (pedido) => `
-    <div class="card m-2" style="width: 18rem;">
-      <img src="${pedido.imagem}" class="card-img-top" alt="${pedido.nome}">
-      <div class="card-body">
-        <h5 class="card-title">${pedido.nome}</h5>
-        <p class="card-text">Preço: R$ ${pedido.preco}</p>
-        <form action="http://localhost:3000/pedidoenviado" method="POST">
-          <input type="hidden" name="nomepedido" value="${pedido.nome}">
-          <button type="submit" class="btn btn-primary w-100">Enviar</button>
-        </form>
+      <div class="col-md-4 mb-4 d-flex">
+        <div class="card flex-fill">
+          <img src="${pedido.imagem}" class="card-img-top" alt="${pedido.nome}">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">${pedido.nome}</h5>
+            <p class="card-text">Preço: R$ ${pedido.preco}</p>
+            <form action="http://localhost:3000/pedidoenviado" method="POST" class="mt-auto">
+              <input type="hidden" name="nomepedido" value="${pedido.nome}">
+              <button type="submit" class="btn btn-primary w-100">Enviar</button>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
-
-  `
+    `
   ).join("");
-  res.send(PedidoHTML); // envia só o HTML
+  // Envolve todos os cards dentro de uma única row
+  res.send(`<div class="row">${PedidoHTML}</div>`);
 });
+
 
 
 app.post("/pedidoenviado", async (req, res) => {
